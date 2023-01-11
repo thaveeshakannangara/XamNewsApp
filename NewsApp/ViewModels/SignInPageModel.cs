@@ -1,8 +1,11 @@
 ﻿using FreshMvvm;
+using NewsApp.Constants;
+using NewsApp.Data.Contracts;
 using NewsApp.Helpers;
 using NewsApp.ViewModels;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace NewsApp
@@ -11,6 +14,7 @@ namespace NewsApp
 	{
 		#region Private Variables
 
+		private readonly IUserRepository _userRepository;
 		private bool isPassword = true;
 		private string passwordVisibilityIcon = "\uf070";
 		private string email = string.Empty;
@@ -64,7 +68,6 @@ namespace NewsApp
 			}
 		}
 
-
 		#endregion Public Properties
 
 		#region ICommands
@@ -76,8 +79,9 @@ namespace NewsApp
 
 		#endregion ICommands
 
-		public SignInPageModel()
+		public SignInPageModel(IUserRepository userRepository)
 		{
+			_userRepository = userRepository;
 			ICommandPasswordVisibleClicked = new Command(() => PasswordVisibleClicked());
 			ICommandForgotPasswordClicked = new Command(async () => await ForgotPasswordClicked());
 			ICommandLoginClicked = new Command(async () => await LoginClicked());
@@ -111,8 +115,16 @@ namespace NewsApp
 
 			if (ValidateFields())
 			{
-				var page = FreshPageModelResolver.ResolvePageModel<HomePageModel>();
-				Application.Current.MainPage = new FreshNavigationContainer(page);
+				var user = await _userRepository.GetUserAync(Email, Password);
+
+				if (user != null)
+				{
+					Preferences.Set(PreferencesKey.IsLoggedIn, true);
+					var page = FreshPageModelResolver.ResolvePageModel<HomePageModel>();
+					Application.Current.MainPage = new FreshNavigationContainer(page);
+				}
+				else
+					await CoreMethods.DisplayAlert("Alert", "User does not exist, Please signup to proceed", "Ok");
 			}
 			else
 				await CoreMethods.DisplayAlert("Alert", "Please check Email and the Password", "Ok");

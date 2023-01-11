@@ -1,5 +1,7 @@
-﻿using NewsApp.Helpers;
+﻿using NewsApp.Data.Contracts;
+using NewsApp.Helpers;
 using NewsApp.ViewModels;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -10,6 +12,7 @@ namespace NewsApp
 	{
 		#region Private Variables
 
+		private readonly IUserRepository _userRepository;
 		private bool isPassword = true;
 		private string passwordVisibilityIcon = "\uf070";
 		private bool isAgreeToTOS = false;
@@ -116,8 +119,9 @@ namespace NewsApp
 
 		#region Constructor
 
-		public SignUpPageModel()
+		public SignUpPageModel(IUserRepository userRepository)
 		{
+			_userRepository = userRepository;
 			ICommandPasswordVisibleClicked = new Command(() => PasswordVisibleClicked());
 			ICommandSignUpClicked = new Command(async () => await SignUpClicked());
 			ICommandSignInClicked = new Command(async () => await SignInClicked());
@@ -151,7 +155,21 @@ namespace NewsApp
 			{
 				if (IsAgreeToTOS)
 				{
-					await CoreMethods.PopToRoot(animate: true);
+					bool isInserted = await _userRepository.SaveUserAync(new Models.DataModels.UserDataModel()
+					{
+						FirstName = this.FirstName,
+						LastName = this.LastName,
+						Email = this.Email,
+						Password = this.Password,
+						CreatedDateTime = DateTime.Now
+					});
+
+					if (isInserted)
+					{
+						await CoreMethods.PopToRoot(animate: true);
+					}
+					else
+						await CoreMethods.DisplayAlert("Alert", "User already exists", "Ok");
 				}
 				else
 					await CoreMethods.DisplayAlert("Alert", "Please check & agree to the TOS / Privacy Policy", "Ok");
