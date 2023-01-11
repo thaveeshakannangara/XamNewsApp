@@ -55,7 +55,7 @@ namespace NewsApp
 			}
 			else
 			{
-				var page = FreshPageModelResolver.ResolvePageModel<HomePageModel>();
+				var page = FreshPageModelResolver.ResolvePageModel<DetailPageModel>();//HomePageModel
 				MainPage = new FreshNavigationContainer(page);
 			}
 		}
