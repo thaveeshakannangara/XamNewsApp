@@ -76,7 +76,7 @@ namespace NewsApp
 
 		#endregion ICommands
 
-		public SignInPageModel() // INetworkService connectivity, IDialogService service, ILocationService location
+		public SignInPageModel()
 		{
 			ICommandPasswordVisibleClicked = new Command(() => PasswordVisibleClicked());
 			ICommandForgotPasswordClicked = new Command(async () => await ForgotPasswordClicked());

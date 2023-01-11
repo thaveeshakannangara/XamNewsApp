@@ -1,12 +1,183 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NewsApp.SignUpPage">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:customButton="clr-namespace:NewsApp.CustomRenderers"
+             x:Class="NewsApp.SignUpPage"
+             NavigationPage.HasNavigationBar="False">
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Text="Sign Up" FontSize="30" HorizontalOptions="Center" TextColor="#707070" FontAttributes="Bold"/>
+
+
+                <!--FIRST NAME-->
+                <StackLayout Grid.Row="1">
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Text="First Name" FontSize="Medium" TextColor="#0260CB" Padding="4,0,0,0" FontAttributes="Bold"
+                           HorizontalOptions="Start" HorizontalTextAlignment="Start"/>
+
+                        <Entry Grid.Row="1" Placeholder="Your first name" Text="{Binding FirstName}"/>
+                    </Grid>
+                </StackLayout>
+
+                <!--LAST NAME-->
+                <StackLayout Grid.Row="2">
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Text="Last Name" FontSize="Medium" TextColor="#0260CB" Padding="4,0,0,0" FontAttributes="Bold"
+                           HorizontalOptions="Start" HorizontalTextAlignment="Start"/>
+
+                        <Entry Grid.Row="1" Placeholder="Your last name" Text="{Binding LastName}"/>
+                    </Grid>
+                </StackLayout>
+
+                <!--EMAIL NAME-->
+                <StackLayout Grid.Row="3">
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Text="Email" FontSize="Medium" TextColor="#0260CB" Padding="4,0,0,0" FontAttributes="Bold"
+                           HorizontalOptions="Start" HorizontalTextAlignment="Start"/>
+
+                        <Entry Grid.Row="1" Placeholder="Your email address" Text="{Binding Email}" TextTransform="Lowercase"/>
+                    </Grid>
+                </StackLayout>
+
+                <!--PASSWORD-->
+                <StackLayout Grid.Row="4">
+                    <StackLayout.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="0,0,20,0" />
+                            <On Platform="Android, WinPhone, Windows" Value="0,0,0,0" />
+                        </OnPlatform>
+                    </StackLayout.Margin>
+
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Text="Password" FontSize="Medium" TextColor="#0260CB" Padding="4,0,0,0" FontAttributes="Bold"
+                           HorizontalOptions="Start" HorizontalTextAlignment="Start"/>
+
+                        <StackLayout Grid.Row="1" Orientation="Horizontal" Margin="0">
+
+                            <Entry Placeholder="Password" IsPassword="{Binding IsPassword,Mode=TwoWay}" Text="{Binding Password}"
+                                HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+
+                            <Label Text="{Binding PasswordVisibilityIcon}" FontSize="22" FontFamily="FontAwesomeSolid" TextColor="#707070" 
+                            HorizontalOptions="End" VerticalOptions="Center">
+
+                                <Label.Margin>
+                                    <OnPlatform x:TypeArguments="Thickness">
+                                        <On Platform="iOS" Value="-55,0,0,0" />
+                                        <On Platform="Android, WinPhone, Windows" Value="-100,0,10,0" />
+                                    </OnPlatform>
+                                </Label.Margin>
+
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ICommandPasswordVisibleClicked}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+
+    
+                <!--TERMS AND SERVICE-->
+                <StackLayout Grid.Row="8" Margin="0,20,0,0">
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Row="0" Grid.Column="0" Color="#4A9AD9" VerticalOptions="Start" IsChecked="{Binding IsAgreeToTOS,Mode=TwoWay}" />
+
+                        <Label Grid.Row="0" Grid.Column="1" TextColor="#707070" Margin="10,0,10,20" FontSize="Medium" 
+                           HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" LineHeight="1.25">
+
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="I agree to the "/>
+                                    <Span Text="Terms of Services" FontAttributes="Bold" TextDecorations="Underline" TextColor="#0594D2" FontSize="Medium">
+                                        <Span.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding ICommandTermsOfServicesClicked}" />
+                                        </Span.GestureRecognizers>
+                                    </Span>
+                                    <Span Text=" and "/>
+                                    <Span Text="Privacy Policy" FontAttributes="Bold" TextDecorations="Underline" TextColor="#0594D2" FontSize="Medium">
+                                        <Span.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding ICommandPrivacyPolicyClicked}" />
+                                        </Span.GestureRecognizers>
+                                    </Span>
+                                    <Span Text="."/>
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                    </Grid>
+                </StackLayout>
+
+                <!--GRADIENT BUTTON-->
+                <customButton:GradientButton Grid.Row="9" Text="Sign Up" TextTransform="None"
+                    VerticalOptions="End" HorizontalOptions="FillAndExpand" GradientOrientation="Horizontal"  Margin="10"
+                    TextColor="White" StartColor="#FF3A44" EndColor="#fa7f86" Command="{Binding ICommandSignUpClicked}">
+
+                    <customButton:GradientButton.CornerRadius>
+                        <OnPlatform x:TypeArguments="x:Int32" iOS="4" Android="2" />
+                    </customButton:GradientButton.CornerRadius>
+                </customButton:GradientButton>
+
+                <Label Grid.Row="10" TextColor="#707070" Margin="10,10,10,20" FontSize="Medium" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Have an account?"/>
+                            <Span Text="   "/>
+                            <Span Text="Sign In" FontAttributes="Bold" TextDecorations="Underline" TextColor="#0594D2" FontSize="Medium">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ICommandSignInClicked}" />
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+            </Grid>
+        </ScrollView>
+
     </ContentPage.Content>
+
 </ContentPage>
