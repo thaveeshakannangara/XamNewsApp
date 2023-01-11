@@ -14,12 +14,46 @@
     <None Remove="Helpers\FontIcons\fa-brands-400.ttf" />
     <None Remove="Helpers\FontIcons\fa-regular-400.ttf" />
     <None Remove="Helpers\FontIcons\fa-solid-900.ttf" />
+    <None Remove="Helpers\FontIcons\NewYorkSmall-Bold.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-Black.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-BlackItalic.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-Bold.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-BoldItalic.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-ExtraBold.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-ExtraBoldItalic.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-ExtraLight.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-ExtraLightItalic.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-Italic.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-Light.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-LightItalic.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-Medium.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-MediumItalic.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-Regular.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-SemiBold.ttf" />
+    <None Remove="Helpers\FontIcons\Nunito-SemiBoldItalic.ttf" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Helpers\FontIcons\fa-brands-400.ttf" />
     <EmbeddedResource Include="Helpers\FontIcons\fa-regular-400.ttf" />
     <EmbeddedResource Include="Helpers\FontIcons\fa-solid-900.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\NewYorkSmall-Bold.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-Black.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-BlackItalic.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-Bold.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-BoldItalic.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-ExtraBold.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-ExtraBoldItalic.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-ExtraLight.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-ExtraLightItalic.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-Italic.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-Light.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-LightItalic.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-Medium.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-MediumItalic.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-Regular.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-SemiBold.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\Nunito-SemiBoldItalic.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +73,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\DetailPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\ForgotPasswordPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
