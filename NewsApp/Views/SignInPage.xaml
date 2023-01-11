@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NewsApp.SignInPage"
+             xmlns:customButton="clr-namespace:NewsApp.CustomRenderers"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid Margin="20,50,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Image Grid.Row="0" Source="NewsAppIcon.png" Aspect="AspectFit" HorizontalOptions="Center"
+                       HeightRequest="80" WidthRequest="80" Margin="0,10,0,20" />
+
+                <Label Grid.Row="1" Text="Sign In" FontSize="30" HorizontalOptions="Center" TextColor="#707070" FontAttributes="Bold"/>
+
+                <Label Grid.Row="2" Text="Hi there! Nice to see you again." FontSize="20" HorizontalOptions="Center" TextColor="#707070" 
+                   Margin="0,0,0,20"/>
+
+
+                <!--EMAIL-->
+                <StackLayout Grid.Row="3">
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Text="Email" FontSize="Medium" TextColor="#0260CB" Padding="4,0,0,0" FontAttributes="Bold"
+                           HorizontalOptions="Start" HorizontalTextAlignment="Start"/>
+
+                        <Entry Grid.Row="1" Placeholder="Email" Text="{Binding Email}" TextTransform="Lowercase"/>
+                    </Grid>
+                </StackLayout>
+
+
+                <!--PASSWORD-->
+                <StackLayout Grid.Row="4">
+                    <StackLayout.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="0,0,20,0" />
+                            <On Platform="Android, WinPhone, Windows" Value="0,0,0,0" />
+                        </OnPlatform>
+                    </StackLayout.Margin>
+
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Text="Password" FontSize="Medium" TextColor="#0260CB" Padding="4,0,0,0" FontAttributes="Bold"
+                           HorizontalOptions="Start" HorizontalTextAlignment="Start"/>
+
+                        <StackLayout Grid.Row="1" Orientation="Horizontal" Margin="0">
+
+                            <Entry Placeholder="Password" IsPassword="{Binding IsPassword,Mode=TwoWay}" Text="{Binding Password}"
+                                HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+
+                            <Label Text="{Binding PasswordVisibilityIcon}" FontSize="22" FontFamily="FontAwesomeSolid" TextColor="#707070" 
+                                HorizontalOptions="End" VerticalOptions="Center">
+
+                                <Label.Margin>
+                                    <OnPlatform x:TypeArguments="Thickness">
+                                        <On Platform="iOS" Value="-60,0,5,0" />
+                                        <On Platform="Android, WinPhone, Windows" Value="-100,0,10,0" />
+                                    </OnPlatform>
+                                </Label.Margin>
+
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ICommandPasswordVisibleClicked}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+
+
+                <Label Grid.Row="5" Text="Forgot Password?" TextColor="#707070" FontAttributes="Bold" FontSize="Small" Margin="0,10,0,10"
+                    LineBreakMode="WordWrap" HorizontalOptions="End" VerticalOptions="Start" HorizontalTextAlignment="End" TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ICommandForgotPasswordClicked}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+
+                <customButton:GradientButton Grid.Row="6" Text="Sign In" TextTransform="None"
+	            VerticalOptions="End" HorizontalOptions="FillAndExpand" GradientOrientation="Horizontal"  Margin="10"
+	            TextColor="White" StartColor="#FF3A44" EndColor="#fa7f86" Command="{Binding ICommandLoginClicked}">
+
+                    <customButton:GradientButton.CornerRadius>
+                        <OnPlatform x:TypeArguments="x:Int32" iOS="4" Android="2" />
+                    </customButton:GradientButton.CornerRadius>
+                </customButton:GradientButton>
+
+                <!--<Button Grid.Row="6" Text="Sign In"  HeightRequest="50" Margin="10,0,10,0"   TextTransform="None" IsVisible="true"
+                BorderColor="Black" BorderWidth="1" CornerRadius="7" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold"                
+                Command="{Binding ICommandLoginClicked}"/>-->
+
+                <Label Grid.Row="7" TextColor="#707070" Margin="10,10,10,20" FontSize="Medium" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Don't have an account?"/>
+                            <Span Text="   "/>
+                            <Span Text="Sign Up" FontAttributes="Bold" TextDecorations="Underline" TextColor="#0594D2" FontSize="Medium">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ICommandSignUpClicked}" />
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+
+
+</ContentPage>
