@@ -101,9 +101,6 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\hotnews1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\NewsApp\NewsApp.csproj">
       <Project>{B716B742-E900-4F5D-B716-A480765BA887}</Project>
       <Name>NewsApp</Name>
