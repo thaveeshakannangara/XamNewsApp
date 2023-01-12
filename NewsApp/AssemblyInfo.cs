@@ -22,3 +22,5 @@ using Xamarin.Forms.Xaml;
 [assembly: ExportFont("Nunito-SemiBold.ttf", Alias = "NunitoSemiBold")]
 [assembly: ExportFont("Nunito-SemiBoldItalic.ttf", Alias = "NunitoSemiBoldItalic")]
 [assembly: ExportFont("NewYorkSmall-Bold.ttf", Alias = "NewYorkSmallBold")]
+[assembly: ExportFont("NewYorkSmall-Semibold.ttf", Alias = "NewYorkSmallSemibold")]
+[assembly: ExportFont("SFProText-Semibold.ttf", Alias = "SFProTextSemibold")]

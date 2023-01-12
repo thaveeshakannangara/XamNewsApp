@@ -15,6 +15,7 @@
     <None Remove="Helpers\FontIcons\fa-regular-400.ttf" />
     <None Remove="Helpers\FontIcons\fa-solid-900.ttf" />
     <None Remove="Helpers\FontIcons\NewYorkSmall-Bold.ttf" />
+    <None Remove="Helpers\FontIcons\NewYorkSmall-Semibold.ttf" />
     <None Remove="Helpers\FontIcons\Nunito-Black.ttf" />
     <None Remove="Helpers\FontIcons\Nunito-BlackItalic.ttf" />
     <None Remove="Helpers\FontIcons\Nunito-Bold.ttf" />
@@ -31,6 +32,7 @@
     <None Remove="Helpers\FontIcons\Nunito-Regular.ttf" />
     <None Remove="Helpers\FontIcons\Nunito-SemiBold.ttf" />
     <None Remove="Helpers\FontIcons\Nunito-SemiBoldItalic.ttf" />
+    <None Remove="Helpers\FontIcons\SFProText-Semibold.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +40,7 @@
     <EmbeddedResource Include="Helpers\FontIcons\fa-regular-400.ttf" />
     <EmbeddedResource Include="Helpers\FontIcons\fa-solid-900.ttf" />
     <EmbeddedResource Include="Helpers\FontIcons\NewYorkSmall-Bold.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\NewYorkSmall-Semibold.ttf" />
     <EmbeddedResource Include="Helpers\FontIcons\Nunito-Black.ttf" />
     <EmbeddedResource Include="Helpers\FontIcons\Nunito-BlackItalic.ttf" />
     <EmbeddedResource Include="Helpers\FontIcons\Nunito-Bold.ttf" />
@@ -54,6 +57,7 @@
     <EmbeddedResource Include="Helpers\FontIcons\Nunito-Regular.ttf" />
     <EmbeddedResource Include="Helpers\FontIcons\Nunito-SemiBold.ttf" />
     <EmbeddedResource Include="Helpers\FontIcons\Nunito-SemiBoldItalic.ttf" />
+    <EmbeddedResource Include="Helpers\FontIcons\SFProText-Semibold.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -80,6 +84,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HomePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\HotNewsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SignInPage.xaml">
