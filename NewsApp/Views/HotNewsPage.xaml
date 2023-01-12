@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NewsApp.HotNewsPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource PageBackgroundColor}">
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Grid.Row="0" Margin="0,20,0,0" Orientation="Horizontal">
+
+                <Label  Text="&#xf053;" FontFamily="FontAwesomeSolid" TextColor="Black" FontSize="25" 
+                       HorizontalOptions="Start" VerticalOptions="Start" Margin="20,0,0,0" />
+                <Label  Text="Hot Updates" FontSize="17" TextColor="#FF3A44" FontFamily="SFProTextSemibold"
+                        HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Margin="-20,0,0,0" />
+                
+            </StackLayout>
+
+            <ScrollView Grid.Row="1">
+
+                <StackLayout Orientation="Vertical">
+                    <StackLayout VerticalOptions="StartAndExpand" Margin="20,20,20,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Frame Grid.Row="0" IsClippedToBounds="True" HeightRequest="150" Padding="0" CornerRadius="8">
+                                <Image   Source="https://c.biztoc.com/p/7d6a83a1f8d43158/o.webp"  Aspect="AspectFill" />
+                            </Frame>
+
+                            <StackLayout Grid.Row="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Grid.Row="0" Text="Monday, 10 May 2021" FontSize="12" TextColor="Black" FontFamily="NunitoLight" />
+
+                                    <Label Grid.Row="1" Text="WHO classifies triple-mutant Covid variant from India as global health risk"
+                                   FontSize="14" TextColor="Black" FontFamily="NewYorkSmallSemibold"/>
+
+                                    <Label Grid.Row="2" FontSize="14"  FontFamily="NunitoRegular" MaxLines="5">
+
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="A World Health Organization official said Monday it is reclassifying the highly contagious triple-mutant Covid variant spreading in India as a variant of concern, indicating that it's become a..."  TextColor="Black" />
+                                                <Span Text=" Read More" TextColor="#0080FF">
+                                                    <Span.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding }" />
+                                                    </Span.GestureRecognizers>
+                                                </Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+
+                                    </Label>
+
+                                    <Label Grid.Row="3" Text="Published by Berkeley Lovelace Jr." FontSize="12" 
+                                   TextColor="Black" FontFamily="NunitoBold"/>
+                                </Grid>
+                            </StackLayout>
+
+                        </Grid>
+                    </StackLayout>
+
+                </StackLayout>
+               
+            </ScrollView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -100,7 +100,6 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\NewsApp\NewsApp.csproj">
       <Project>{B716B742-E900-4F5D-B716-A480765BA887}</Project>
