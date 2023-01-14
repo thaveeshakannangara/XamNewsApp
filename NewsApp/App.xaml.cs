@@ -1,8 +1,12 @@
-﻿using FreshMvvm;
+﻿using AutoMapper;
+using FreshMvvm;
 using NewsApp.Constants;
 using NewsApp.Data;
 using NewsApp.Data.Contracts;
+using NewsApp.Data.Mapping;
 using NewsApp.Data.Repositories;
+using NewsApp.Services.ApiServices;
+using NewsApp.Services.ApiServices.Contracts;
 using System;
 using System.IO;
 using Xamarin.Essentials;
@@ -19,6 +23,7 @@ namespace NewsApp
 			InitializeComponent();
 
 			InitDIContainer();
+			InitializeAutomapper();
 			InitDatabase();
 			App.Current.UserAppTheme = OSAppTheme.Light;
 			InitNavigation();
@@ -31,6 +36,7 @@ namespace NewsApp
 		{
 			FreshIOC.Container.Register<ISqliteConnectionManager, SqliteConnectionManager>();
 			FreshIOC.Container.Register<IUserRepository, UserRepository>();
+			FreshIOC.Container.Register<INewsProviderService, NewsProviderService>();
 		}
 
 		private static void InitDatabase()
@@ -55,9 +61,15 @@ namespace NewsApp
 			}
 			else
 			{
-				var page = FreshPageModelResolver.ResolvePageModel<SearchListPageModel>();//HomePageModel
+				var page = FreshPageModelResolver.ResolvePageModel<HomePageModel>();
 				MainPage = new FreshNavigationContainer(page);
 			}
+		}
+
+		private static void InitializeAutomapper()
+		{
+			Mapper.Initialize(c => c.AddProfile<MappingProfile>());
+			Mapper.AssertConfigurationIsValid();
 		}
 
 		protected override void OnStart()
