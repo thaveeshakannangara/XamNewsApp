@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NewsApp.SignInPage"
              xmlns:customButton="clr-namespace:NewsApp.CustomRenderers"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ContentPage.Content>
         <ScrollView>
