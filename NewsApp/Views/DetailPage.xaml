@@ -4,7 +4,7 @@
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="NewsApp.DetailPage"
              NavigationPage.HasNavigationBar="False"
-             BackgroundColor="White">
+             BackgroundColor="{StaticResource PageBackgroundColor}">
     
     <ContentPage.Content>
         <Grid>

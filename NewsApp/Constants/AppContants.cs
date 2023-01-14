@@ -1,4 +1,6 @@
-﻿namespace NewsApp.Constants
+﻿using System.Collections.Generic;
+
+namespace NewsApp.Constants
 {
 	public static class AppContants
 	{
@@ -13,5 +15,8 @@
 							SQLite.SQLiteOpenFlags.ReadWrite |
 							SQLite.SQLiteOpenFlags.Create |
 							SQLite.SQLiteOpenFlags.SharedCache;
+		
+		private static readonly List<string> list = new List<string>(new string[] { "Healthy", "Technology", "Finance", "Arts", "Sports" });
+		public static List<string> FilterOptions { get => list; }
 	}
 }
