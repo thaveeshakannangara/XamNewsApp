@@ -19,6 +19,7 @@ namespace NewsApp
 	{
 		private readonly INewsProviderService _newsService;
 		private ObservableCollection<NewsModel> topNewsList;
+		private NewsModel selectedNewsModel;
 
 		public ObservableCollection<NewsModel> TopNewsList
 		{
@@ -31,13 +32,26 @@ namespace NewsApp
 			}
 		}
 
+		public NewsModel SelectedNewsModel
+		{
+			get => selectedNewsModel;
+			set
+			{
+				if (selectedNewsModel == value) return;
+				selectedNewsModel = value;
+				RaisePropertyChanged(nameof(SelectedNewsModel));
+			}
+		}
+
 		public ICommand ICommandBackButtonCommand { get; set; }
+		public ICommand ICommandNewsSelectionCommand { get; set; }
 
 		public HotNewsPageModel(INewsProviderService newsService)
 		{
 			_newsService = newsService;
 			topNewsList = new ObservableCollection<NewsModel>();
 			ICommandBackButtonCommand = new Command(async () => await BackButtonTapped());
+			ICommandNewsSelectionCommand = new Command<object>(NewsSelectionChanged);
 		}
 
 		public override async void Init(object initData)
@@ -65,10 +79,19 @@ namespace NewsApp
 			}
 		}
 
+		private async void NewsSelectionChanged(object selectedNews)
+		{
+			if (selectedNews != null)
+			{
+				NewsModel selectedItem = (NewsModel)selectedNews;
+				await CoreMethods.PushPageModel<DetailPageModel>(selectedItem);
+				SelectedNewsModel = null;
+			}
+		}
+
 		private async Task BackButtonTapped()
 		{
 			await CoreMethods.PopPageModel();
 		}
-
 	}
 }
