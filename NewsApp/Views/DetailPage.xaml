@@ -1,10 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+             xmlns:local="clr-namespace:NewsApp.Converters"
              x:Class="NewsApp.DetailPage"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource PageBackgroundColor}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:DateToDateStringConverter x:Key="DateToDateString" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
     <ContentPage.Content>
         <Grid>
@@ -13,15 +20,12 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Image Grid.Row="0" Source="elonmask.webp" Aspect="AspectFill" />
+            <Image Grid.Row="0" Source="{Binding NewsModel.UrlToImage}" Aspect="AspectFill" />
 
             <Frame Grid.Row="1" CornerRadius="40" Margin="-4,-30,-4,0" HasShadow="False" Padding="20,100,20,0">
                 <ScrollView>
                     <Label  FontFamily="NunitoSemiBold" FontSize="14" TextColor="Black" LineBreakMode="WordWrap"
-                    Text="Cryptocurrencies have no intrinsic value and people who invest in them should be prepared to lose all their money, Bank of England Governor Andrew Bailey said. &#10;&#10;
-                    Digital currencies like bitcoin, ether and even dogecoin have been on a tear this year, reminding some investors of the 2017 crypto bubble in which bitcoin blasted toward $20,000, only to sink as low as $3,122 a year later. &#10; &#10; Asked at a press conference Thursday about the rising value of cryptocurrencies, Bailey said: They have no intrinsic value. That doesn't mean to say people don't put value on them, because they can have extrinsic value. But they have no intrinsic value.
-                       Cryptocurrencies have no intrinsic value and people who invest in them should be prepared to lose all their money, Bank of England Governor Andrew Bailey said. &#10;&#10;
-                    Digital currencies like bitcoin, ether and even dogecoin have been on a tear this year, reminding some investors of the 2017 crypto bubble in which bitcoin blasted toward $20,000, only to sink as low as $3,122 a year later. &#10; &#10; Asked at a press conference Thursday about the rising value of cryptocurrencies, Bailey said: They have no intrinsic value. That doesn't mean to say people don't put value on them, because they can have extrinsic value. But they have no intrinsic value."
+                    Text="{Binding NewsModel.Description}"
                     VerticalOptions="StartAndExpand" 
                     HorizontalOptions="CenterAndExpand" />
                 </ScrollView>
@@ -40,14 +44,14 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Text="Sunday, 9 May 2021" TextColor="Black" FontFamily="NunitoSemiBold"
+                    <Label Grid.Row="0" Text="{Binding NewsModel.PublishedAt, Converter={StaticResource DateToDateString},Mode=OneWay}" TextColor="Black" FontFamily="NunitoSemiBold"
                            Margin="0,0,0,0" FontSize="12" FontAttributes="None" />
 
-                    <Label Grid.Row="1" Text="Crypto investers should be prepared to lose all their money, BOE governor says" TextColor="Black"
+                    <Label Grid.Row="1" Text="{Binding NewsModel.Title}" TextColor="Black"
                            Margin="0,0,0,0" FontSize="16" FontAttributes="Bold" FontFamily="NewYorkSmallBold"
                            LineBreakMode="WordWrap"/>
 
-                    <Label Grid.Row="2" Text="published by Ryan Browne" TextColor="Black" FontFamily="NunitoExtraBold"
+                    <Label Grid.Row="2" Text="{Binding NewsModel.Author, StringFormat='Published by {0:F1}.'}" TextColor="Black" FontFamily="NunitoExtraBold"
                            Margin="0,5,0,0" FontSize="10" FontAttributes="Bold" />
 
                 </Grid>
@@ -58,6 +62,9 @@
                    HeightRequest="40" WidthRequest="40" HorizontalOptions="Start" VerticalOptions="Start" >
                 <Label Text="&#xf053;" FontFamily="FontAwesomeSolid" TextColor="#173418" FontSize="25" 
                        HorizontalOptions="Center" VerticalOptions="Center" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ICommandBackButtonCommand}" />
+                </Frame.GestureRecognizers>
             </Frame>
 
             <yummy:PancakeView Grid.Row="0" Grid.RowSpan="2" Margin="0,0,20,20" 

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:NewsApp.Converters"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:NewsApp.Converters"
              x:Class="NewsApp.HotNewsPage"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource PageBackgroundColor}">
@@ -9,6 +10,23 @@
         <ResourceDictionary>
             <local:DateToDateStringConverter x:Key="DateToDateString" />
         </ResourceDictionary>
+
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="LightGray" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+
     </ContentPage.Resources>
 
     <ContentPage.Content>
@@ -36,7 +54,10 @@
                                IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
                                VerticalOptions="Center" HeightRequest="38" WidthRequest="38"/>
 
-            <CollectionView Grid.Row="1" ItemsSource="{Binding TopNewsList}" Margin="20,20,20,0">
+            <CollectionView x:Name="Collectionview" Grid.Row="1" ItemsSource="{Binding TopNewsList}" Margin="20,20,20,0" 
+                            SelectionMode="Single" SelectedItem="{Binding SelectedNewsModel, Mode=TwoWay}"
+                            SelectionChangedCommand="{Binding ICommandNewsSelectionCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference Collectionview}}">
                 
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" ItemSpacing="30" />
@@ -78,7 +99,8 @@
                                                 <Span Text="..."  TextColor="Black" />
                                                 <Span Text=" Read More" TextColor="#0080FF">
                                                     <Span.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding }" />
+                                                        <TapGestureRecognizer Command="{Binding ICommandNewsSelectionCommand}" 
+                                                                              CommandParameter="{Binding SelectedItem, Source={x:Reference Collectionview}}" />
                                                     </Span.GestureRecognizers>
                                                 </Span>
                                             </FormattedString>
