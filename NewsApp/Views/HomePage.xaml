@@ -20,7 +20,7 @@
                         <VisualState x:Name="Selected">
                             <VisualState.Setters>
                                 <Setter Property="BackgroundColor"
-                                        Value="LightGray" />
+                                        Value="Transparent" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -41,27 +41,49 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <yummy:PancakeView Grid.Row="0" BackgroundColor="White" Margin="5,0,5,0" CornerRadius="32" Padding="0"
-                                HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"
-                                HeightRequest="40">
 
-                <yummy:PancakeView.Border>
-                    <yummy:Border Color="#F0F1FA" Thickness="1" />
-                </yummy:PancakeView.Border>
+            <Grid Grid.Row="0" Margin="0,0,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                <Grid HorizontalOptions="StartAndExpand">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
 
-                    <Entry Grid.Column="0" Text="COVID New Variant" TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12"
-                                       HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Margin="5,0,5,0" />
+                <Frame Grid.Column="0" BackgroundColor="White" BorderColor="#F0F1FA" 
+                    Margin="5,0,5,10" Padding="0" CornerRadius="32" HeightRequest="35"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="Start" >
+                    
+                    <Grid HorizontalOptions="StartAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                    <ImageButton Grid.Column="1" Source="searchicon.png" BackgroundColor="Transparent"
-                                 HeightRequest="18" WidthRequest="18" Margin="5,0,20,0" Command="{Binding ICommandSearchBarTapped}" />
-                </Grid>
-            </yummy:PancakeView>
+                        <Entry Grid.Column="0" Text="{Binding SearchKey,Mode=TwoWay}" Placeholder="Search..." 
+                               TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12" WidthRequest="245" Margin="5,0,5,0"
+                               HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"  />
+
+                        <ImageButton Grid.Column="1" Source="searchicon.png" BackgroundColor="Transparent" HorizontalOptions="End"
+                                 HeightRequest="18" WidthRequest="18" Margin="0,0,15,0" Command="{Binding ICommandSearchBarTapped}" />
+
+                    </Grid>
+                </Frame>
+                
+
+                <Image Grid.Column="1" Source="notificationicon.png" BackgroundColor="Transparent" 
+                        HorizontalOptions="End" VerticalOptions="Start"
+                        HeightRequest="32" WidthRequest="32"/>
+
+                <ImageButton Grid.Column="2" Source="logouticon.png" BackgroundColor="Transparent" 
+                        HorizontalOptions="End" VerticalOptions="Start"
+                        HeightRequest="32" WidthRequest="32" Command="{Binding ICommandLogoutCommand}" />
+
+            </Grid>
+            
+            
+
+            
 
             <Grid Grid.Row="1" Margin="0,0,20,0">
                 <Grid.ColumnDefinitions>
@@ -84,7 +106,7 @@
                 </StackLayout>
             </Grid>
 
-            <CollectionView x:Name="TopCollectionview" Grid.Row="2" ItemsSource="{Binding TopNewsList}" Margin="0,20,0,0" HeightRequest="210"
+            <CollectionView x:Name="TopCollectionview" Grid.Row="2" ItemsSource="{Binding TopNewsList}" Margin="0,10,0,0" HeightRequest="210"
                             SelectionMode="Single" SelectedItem="{Binding SelectedTopNewsModel, Mode=TwoWay}"
                             SelectionChangedCommand="{Binding ICommandTopNewsSelectionCommand}"
                             SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference TopCollectionview}}">
@@ -136,8 +158,11 @@
             <ActivityIndicator Grid.Row="3" HorizontalOptions="Center" BackgroundColor="Transparent" 
                                IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
                                VerticalOptions="Center" HeightRequest="38" WidthRequest="38"/>
-            
-            <CollectionView ItemsSource="{Binding FilterOptions}"  Grid.Row="3" HeightRequest="35" Margin="0,20,0,0">
+
+            <CollectionView x:Name="FilterCollectionview" Grid.Row="3" ItemsSource="{Binding FilterOptions}" HeightRequest="35" Margin="0,20,0,0"
+                            SelectionMode="Single" SelectedItem="{Binding SelectedFilterOption, Mode=TwoWay}"
+                            SelectionChangedCommand="{Binding ICommandFilterOptionSelectionCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference FilterCollectionview}}">
 
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal"
@@ -146,23 +171,38 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <yummy:PancakeView BackgroundColor="White" Margin="5,0,5,0" CornerRadius="32"
+                        <Grid>
+                            <yummy:PancakeView BackgroundColor="White" Margin="5,0,5,0" CornerRadius="32"
                                 HorizontalOptions="Start" VerticalOptions="Center"
                                 HeightRequest="32" WidthRequest="79">
 
-                            <yummy:PancakeView.Border>
-                                <yummy:Border Color="#F0F1FA" Thickness="1" />
-                            </yummy:PancakeView.Border>
+                                <yummy:PancakeView.Border>
+                                    <yummy:Border Color="#F0F1FA" Thickness="1" />
+                                </yummy:PancakeView.Border>
 
-                            <Label Grid.Column="1" Text="{Binding .}" TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12"
-                                       HorizontalOptions="Center" VerticalOptions="Center" />
-                        </yummy:PancakeView>
+                                <Label Grid.Column="1" Text="{Binding FilterOption}" TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12"
+                                       HorizontalOptions="Center" VerticalOptions="Center">
+
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="TextColor" Value="#FFFFFF"/>
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+
+                                <yummy:PancakeView.Triggers>
+                                    <DataTrigger TargetType="ContentView" Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="#ff6b73"/>
+                                    </DataTrigger>
+                                </yummy:PancakeView.Triggers>
+                            </yummy:PancakeView>
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
             <ActivityIndicator Grid.Row="4" HorizontalOptions="Center" BackgroundColor="Transparent" 
-                               IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               IsRunning="{Binding IsActivityBusy}" IsVisible="{Binding IsActivityBusy}"
                                VerticalOptions="Center" HeightRequest="38" WidthRequest="38"/>
             
             <CollectionView x:Name="BottomCollectionview" Grid.Row="4" ItemsSource="{Binding BottomNewsList}" Margin="0,20,20,0"

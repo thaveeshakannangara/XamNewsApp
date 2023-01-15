@@ -6,6 +6,7 @@ using NewsApp.Data.Contracts;
 using NewsApp.Data.Mapping;
 using NewsApp.Data.Repositories;
 using NewsApp.Services.Contracts;
+using NewsApp.Services.FilterService;
 using NewsApp.Services.NewsService;
 using System;
 using System.IO;
@@ -14,7 +15,7 @@ using Xamarin.Forms;
 
 namespace NewsApp
 {
-    public partial class App : Application
+	public partial class App : Application
 	{
 		private static NewsSqliteDatabase database;
 
@@ -37,6 +38,7 @@ namespace NewsApp
 			FreshIOC.Container.Register<ISqliteConnectionManager, SqliteConnectionManager>();
 			FreshIOC.Container.Register<IUserRepository, UserRepository>();
 			FreshIOC.Container.Register<INewsProviderService, NewsProviderService>();
+			FreshIOC.Container.Register<IFilterOptionsService, FilterOptionsService>();
 		}
 
 		private static void InitDatabase()
