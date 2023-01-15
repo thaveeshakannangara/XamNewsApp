@@ -20,7 +20,20 @@ namespace NewsApp
 		private readonly INewsProviderService _newsService;
 		private ObservableCollection<NewsModel> topNewsList;
 		private ObservableCollection<NewsModel> bottomNewsList;
+		private List<string> filterOptions;
+		private NewsModel selectedBottomNewsModel;
+		private NewsModel selectedTopNewsModel;
 
+		public List<string> FilterOptions
+		{
+			get => filterOptions;
+			set
+			{
+				if (filterOptions == value) return;
+				filterOptions = value;
+				RaisePropertyChanged(nameof(FilterOptions));
+			}
+		}
 		public ObservableCollection<NewsModel> TopNewsList
 		{
 			get => topNewsList;
@@ -43,14 +56,42 @@ namespace NewsApp
 			}
 		}
 
+		public NewsModel SelectedBottomNewsModel
+		{
+			get => selectedBottomNewsModel;
+			set
+			{
+				if (selectedBottomNewsModel == value) return;
+				selectedBottomNewsModel = value;
+				RaisePropertyChanged(nameof(SelectedBottomNewsModel));
+			}
+		}
+
+		public NewsModel SelectedTopNewsModel
+		{
+			get => selectedTopNewsModel;
+			set
+			{
+				if (selectedTopNewsModel == value) return;
+				selectedTopNewsModel = value;
+				RaisePropertyChanged(nameof(SelectedTopNewsModel));
+			}
+		}
+
 		public ICommand ICommandSeeAllTapped { get; set; }
 		public ICommand ICommandSearchBarTapped { get; set; }
+		public ICommand ICommandBottomNewsSelectionCommand { get; set; }
+		public ICommand ICommandTopNewsSelectionCommand { get; set; }
 		public HomePageModel(INewsProviderService newsService)
 		{
 			_newsService = newsService;
 			ICommandSeeAllTapped = new Command(async () => await SeeAllTapped());
 			ICommandSearchBarTapped = new Command(async () => await SearchBarTapped());
+			ICommandBottomNewsSelectionCommand = new Command<object>(BottomNewsSelectionChanged);
+			ICommandTopNewsSelectionCommand = new Command<object>(TopNewsSelectionChanged);
 		}
+
+		
 
 		public override async void Init(object initData)
 		{
@@ -60,6 +101,7 @@ namespace NewsApp
 
 			await Task.WhenAll(task1, task2);
 
+			FilterOptions = Constants.AppContants.FilterOptions;
 			base.Init(initData);
 			IsBusy = false;
 		}
@@ -85,7 +127,7 @@ namespace NewsApp
 		{
 			ArticlesResult articles = await _newsService.GetTopNewsUpdates(new TopHeadlinesRequest()
 			{
-				Category = Categories.Business,
+				Category = Categories.Health,
 				Language = Languages.EN,
 				Page = 1,
 				PageSize = 10,
@@ -108,7 +150,29 @@ namespace NewsApp
 			await CoreMethods.PushPageModel<HotNewsPageModel>();
 		}
 
-		
+		private async void BottomNewsSelectionChanged(object selectedNews)
+		{
+			if (selectedNews != null)
+			{
+				await NavigateToDetailPage(selectedNews);
+				SelectedBottomNewsModel = null;
+			}
+		}
+
+		private async void TopNewsSelectionChanged(object selectedNews)
+		{
+			if (selectedNews != null)
+			{
+				await NavigateToDetailPage(selectedNews);
+				SelectedTopNewsModel = null;
+			}
+		}
+
+		private async Task NavigateToDetailPage(object selectedNews)
+		{
+			NewsModel selectedItem = (NewsModel)selectedNews;
+			await CoreMethods.PushPageModel<DetailPageModel>(selectedItem);
+		}
 
 	}
 }
