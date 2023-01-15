@@ -3,7 +3,7 @@ using NewsAPI.Constants;
 using NewsAPI.Models;
 using NewsApp.Helpers;
 using NewsApp.Models.AppModels;
-using NewsApp.Services.ApiServices.Contracts;
+using NewsApp.Services.Contracts;
 using NewsApp.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

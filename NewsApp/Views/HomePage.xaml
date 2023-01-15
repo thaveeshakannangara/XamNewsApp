@@ -5,8 +5,14 @@
     <ContentPage.Content>
 
 
-        <Grid>
-            <Button Text="See All" Command="{Binding ICommandSeeAllTapped}" HeightRequest="30" />
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Text="See All" Command="{Binding ICommandSeeAllTapped}" HeightRequest="50" />
+            <Button Grid.Row="1" Text="Search Page" Command="{Binding ICommandSearchBarTapped}" HeightRequest="50" />
         </Grid>
         
     </ContentPage.Content>

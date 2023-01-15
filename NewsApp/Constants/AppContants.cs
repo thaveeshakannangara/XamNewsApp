@@ -17,7 +17,7 @@ namespace NewsApp.Constants
 							SQLite.SQLiteOpenFlags.Create |
 							SQLite.SQLiteOpenFlags.SharedCache;
 		
-		private static readonly List<string> list = new List<string>(new string[] { "Healthy", "Technology", "Finance", "Arts", "Sports" });
+		private static readonly List<string> list = new List<string>(new string[] { "General", "Health", "Technology", "Science", "Business", "Sports", "Entertainment" });
 		public static List<string> FilterOptions { get => list; }
 	}
 }

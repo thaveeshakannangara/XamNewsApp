@@ -74,6 +74,7 @@
 
   <ItemGroup>
     <Folder Include="Models\ApiModels\" />
+    <Folder Include="Services\ApiServices\" />
   </ItemGroup>
 
   <ItemGroup>

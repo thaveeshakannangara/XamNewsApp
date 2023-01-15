@@ -5,8 +5,8 @@ using NewsApp.Data;
 using NewsApp.Data.Contracts;
 using NewsApp.Data.Mapping;
 using NewsApp.Data.Repositories;
-using NewsApp.Services.ApiServices;
-using NewsApp.Services.ApiServices.Contracts;
+using NewsApp.Services.Contracts;
+using NewsApp.Services.NewsService;
 using System;
 using System.IO;
 using Xamarin.Essentials;
@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace NewsApp
 {
-	public partial class App : Application
+    public partial class App : Application
 	{
 		private static NewsSqliteDatabase database;
 
