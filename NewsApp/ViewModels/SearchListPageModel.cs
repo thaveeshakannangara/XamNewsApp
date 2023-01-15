@@ -1,15 +1,17 @@
-﻿using NewsApp.ViewModels;
+﻿using NewsApp.Models.AppModels;
+using NewsApp.Services.Contracts;
+using NewsApp.ViewModels;
 using System.Collections.Generic;
 
 namespace NewsApp
 {
 	public class SearchListPageModel : BaseViewModel
 	{
+		private readonly IFilterOptionsService _filterService;
+		private List<FilterModel> filterOptions;
 
-		private List<string> filterOptions;
-
-		public List<string> FilterOptions
-		{ 
+		public List<FilterModel> FilterOptions
+		{
 			get => filterOptions;
 			set
 			{
@@ -19,19 +21,18 @@ namespace NewsApp
 			}
 		}
 
-		public SearchListPageModel()
+		public SearchListPageModel(IFilterOptionsService filterService)
 		{
-			filterOptions = new List<string>();
+			_filterService = filterService;
+			filterOptions = new List<FilterModel>();
 		}
 
 		public override void Init(object initData)
 		{
 			//InitializeFilters
-			FilterOptions = Constants.AppContants.FilterOptions;
-
+			FilterOptions = _filterService.GetFilterOptions();
 
 			base.Init(initData);
 		}
-
 	}
 }

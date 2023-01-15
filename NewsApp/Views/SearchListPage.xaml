@@ -93,7 +93,7 @@
                                     <yummy:Border Color="#F0F1FA" Thickness="1" />
                                 </yummy:PancakeView.Border>
 
-                                <Label Grid.Column="1" Text="{Binding .}" TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12" 
+                                <Label Grid.Column="1" Text="{Binding FilterOption}" TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12" 
                                        HorizontalOptions="Center" VerticalOptions="Center"/>
 
                             </yummy:PancakeView>

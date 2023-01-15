@@ -1,13 +1,260 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NewsApp.HomePage">
+             xmlns:local="clr-namespace:NewsApp.Converters"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="NewsApp.HomePage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource PageBackgroundColor}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:DateToDateStringConverter x:Key="DateToDateString" />
+        </ResourceDictionary>
+
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
 
+        <Grid Margin="20,30,0,5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <Grid>
-            <Button Text="See All" Command="{Binding ICommandSeeAllTapped}" HeightRequest="30" />
+
+            <Grid Grid.Row="0" Margin="0,0,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+
+                <Frame Grid.Column="0" BackgroundColor="White" BorderColor="#F0F1FA" 
+                    Margin="5,0,5,10" Padding="0" CornerRadius="32" HeightRequest="35"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="Start" >
+                    
+                    <Grid HorizontalOptions="StartAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Entry Grid.Column="0" Text="{Binding SearchKey,Mode=TwoWay}" Placeholder="Search..." 
+                               TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12" WidthRequest="245" Margin="5,0,5,0"
+                               HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"  />
+
+                        <ImageButton Grid.Column="1" Source="searchicon.png" BackgroundColor="Transparent" HorizontalOptions="End"
+                                 HeightRequest="18" WidthRequest="18" Margin="0,0,15,0" Command="{Binding ICommandSearchBarTapped}" />
+
+                    </Grid>
+                </Frame>
+                
+
+                <Image Grid.Column="1" Source="notificationicon.png" BackgroundColor="Transparent" 
+                        HorizontalOptions="End" VerticalOptions="Start"
+                        HeightRequest="32" WidthRequest="32"/>
+
+                <ImageButton Grid.Column="2" Source="logouticon.png" BackgroundColor="Transparent" 
+                        HorizontalOptions="End" VerticalOptions="Start"
+                        HeightRequest="32" WidthRequest="32" Command="{Binding ICommandLogoutCommand}" />
+
+            </Grid>
+            
+            
+
+            
+
+            <Grid Grid.Row="1" Margin="0,0,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Text="Latest News" TextColor="Black" FontSize="18"
+                                    FontFamily="NewYorkSmallBold" VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
+
+                <StackLayout Grid.Column="1" Orientation="Horizontal">
+                    <Label Text="See All" TextColor="#0080FF" FontSize="12"
+                                    FontFamily="NunitoSemiBold" VerticalOptions="Center" HorizontalOptions="End" />
+                    <Label Text="&#xf061;" FontFamily="FontAwesomeSolid" TextColor="#0080FF" FontSize="14"
+                       HorizontalOptions="End" VerticalOptions="Center" />
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ICommandSeeAllTapped}" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Grid>
+
+            <CollectionView x:Name="TopCollectionview" Grid.Row="2" ItemsSource="{Binding TopNewsList}" Margin="0,10,0,0" HeightRequest="210"
+                            SelectionMode="Single" SelectedItem="{Binding SelectedTopNewsModel, Mode=TwoWay}"
+                            SelectionChangedCommand="{Binding ICommandTopNewsSelectionCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference TopCollectionview}}">
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="321" />
+                            </Grid.ColumnDefinitions>
+
+                            <Frame Grid.Row="0" IsClippedToBounds="True" HeightRequest="210" WidthRequest="321" Padding="0" CornerRadius="8">
+                                <Image Source="{Binding UrlToImage}"  Aspect="AspectFill" />
+                            </Frame>
+
+                            <Frame Grid.Row="0" HeightRequest="240" WidthRequest="210" Padding="0"
+                                   CornerRadius="8" BackgroundColor="Black" Opacity="0.3">
+                            </Frame>
+
+                            <Grid Grid.Row="0" Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Label Grid.Row="0" Text="{Binding Author, StringFormat='by {0:F1}'}" TextColor="#FFFFFF" FontSize="10"
+                                    FontFamily="NunitoExtraBold" VerticalOptions="End" HorizontalOptions="StartAndExpand" />
+
+                                <Label Grid.Row="1" TextColor="#FFFFFF" FontSize="16" FontFamily="NewYorkSmallBold"
+                                Text="{Binding Title}"
+                                VerticalOptions="End" HorizontalOptions="StartAndExpand" />
+
+                                <Label Grid.Row="2" FontSize="10" Text="{Binding Description}"
+                           TextColor="#FFFFFF" FontFamily="NunitoRegular" MaxLines="2"
+                            VerticalOptions="End" HorizontalOptions="StartAndExpand" />
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <ActivityIndicator Grid.Row="3" HorizontalOptions="Center" BackgroundColor="Transparent" 
+                               IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               VerticalOptions="Center" HeightRequest="38" WidthRequest="38"/>
+
+            <CollectionView x:Name="FilterCollectionview" Grid.Row="3" ItemsSource="{Binding FilterOptions}" HeightRequest="35" Margin="0,20,0,0"
+                            SelectionMode="Single" SelectedItem="{Binding SelectedFilterOption, Mode=TwoWay}"
+                            SelectionChangedCommand="{Binding ICommandFilterOptionSelectionCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference FilterCollectionview}}">
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal"
+                           ItemSpacing="5" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <yummy:PancakeView BackgroundColor="White" Margin="5,0,5,0" CornerRadius="32"
+                                HorizontalOptions="Start" VerticalOptions="Center"
+                                HeightRequest="32" WidthRequest="79">
+
+                                <yummy:PancakeView.Border>
+                                    <yummy:Border Color="#F0F1FA" Thickness="1" />
+                                </yummy:PancakeView.Border>
+
+                                <Label Grid.Column="1" Text="{Binding FilterOption}" TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12"
+                                       HorizontalOptions="Center" VerticalOptions="Center">
+
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="TextColor" Value="#FFFFFF"/>
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+
+                                <yummy:PancakeView.Triggers>
+                                    <DataTrigger TargetType="ContentView" Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="#ff6b73"/>
+                                    </DataTrigger>
+                                </yummy:PancakeView.Triggers>
+                            </yummy:PancakeView>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <ActivityIndicator Grid.Row="4" HorizontalOptions="Center" BackgroundColor="Transparent" 
+                               IsRunning="{Binding IsActivityBusy}" IsVisible="{Binding IsActivityBusy}"
+                               VerticalOptions="Center" HeightRequest="38" WidthRequest="38"/>
+            
+            <CollectionView x:Name="BottomCollectionview" Grid.Row="4" ItemsSource="{Binding BottomNewsList}" Margin="0,20,20,0"
+                            SelectionMode="Single" SelectedItem="{Binding SelectedBottomNewsModel, Mode=TwoWay}"
+                            SelectionChangedCommand="{Binding ICommandBottomNewsSelectionCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference BottomCollectionview}}">
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="30" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Frame Grid.Row="0" IsClippedToBounds="True" HeightRequest="150" Padding="0" CornerRadius="8">
+                                <Image Source="{Binding UrlToImage}"  Aspect="AspectFill" />
+                            </Frame>
+
+                            <Frame Grid.Row="0" HeightRequest="150" Padding="0" CornerRadius="8" BackgroundColor="Black" Opacity="0.3">
+                            </Frame>
+
+                            <Grid Grid.Row="0" Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="#FFFFFF"
+                                FontSize="14" FontFamily="NewYorkSmallSemibold"
+                                Text="{Binding Title}"
+                                VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+
+                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding Author}" TextColor="#FFFFFF"
+                                VerticalOptions="End" HorizontalOptions="Start" FontSize="12" FontFamily="NunitoSemiBold" />
+
+                                <Label Grid.Row="1" Grid.Column="1" TextColor="#FFFFFF"
+                                Text="{Binding PublishedAt, Converter={StaticResource DateToDateString},Mode=OneWay}"
+                                VerticalOptions="End" HorizontalOptions="End" FontSize="12" FontFamily="NunitoSemiBold" />
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
-        
     </ContentPage.Content>
 </ContentPage>
