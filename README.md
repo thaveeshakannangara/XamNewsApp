@@ -9,8 +9,11 @@ Design is based on the following figma design -> https://www.figma.com/community
 
 
 1.Visit this Url -> https://newsapi.org/
+
 2.Create a account
+
 3.Copy & paste the API key to AppContants class's NewsApiKey property.
+
 4.Create a Firebase Account and add google analytics json files to android and iOS project to track exceptions.
 
 # TODO
