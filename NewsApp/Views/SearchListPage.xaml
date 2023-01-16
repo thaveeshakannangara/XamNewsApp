@@ -40,24 +40,42 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Frame Grid.Row="0" BackgroundColor="White" BorderColor="#F0F1FA"
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Text="&#xf053;" FontFamily="FontAwesomeSolid" TextColor="Black" FontSize="25" 
+                       HorizontalOptions="Start" VerticalOptions="Center" Margin="0,0,0,5">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ICommandBackButtonCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Frame Grid.Column="1" BackgroundColor="White" BorderColor="#F0F1FA"
                     Margin="5,0,5,10" Padding="0" CornerRadius="32" HeightRequest="35"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                    HorizontalOptions="FillAndExpand" VerticalOptions="Center">
 
-                <Grid HorizontalOptions="StartAndExpand">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                    <Grid HorizontalOptions="StartAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                    <Entry Grid.Column="0" Text="{Binding SearchKey,Mode=TwoWay}" Placeholder="Search..."
+                        <Entry Grid.Column="0" Text="{Binding SearchKey,Mode=TwoWay}" Placeholder="Search..."
                                TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12" WidthRequest="345" Margin="5,0,5,0"
                                HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
 
-                    <ImageButton Grid.Column="1" Source="searchbarclose.png" BackgroundColor="Transparent" HorizontalOptions="End"
-                                 HeightRequest="12" WidthRequest="12" Margin="5,0,20,0" Command="{Binding ICommandSearchBarTapped}" />
-                </Grid>
-            </Frame>
+                        <ImageButton Grid.Column="1" Source="searchicon.png" BackgroundColor="Transparent" HorizontalOptions="End"
+                                 HeightRequest="18" WidthRequest="18" Margin="5,0,20,0" Command="{Binding ICommandSearchBarTapped}" />
+
+                        <ImageButton Grid.Column="2" Source="searchbarclose.png" BackgroundColor="Transparent" HorizontalOptions="End"
+                                 HeightRequest="12" WidthRequest="12" Margin="5,0,20,0" Command="{Binding ICommandClearSearchTapped}" />
+                    </Grid>
+                </Frame>
+            </Grid>
 
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -89,6 +107,10 @@
                         <Label Grid.Column="1" Text="Filter" TextColor="#FFFFFF" VerticalOptions="Center"
                                FontFamily="NunitoSemiBold" FontSize="12" />
                     </Grid>
+
+                    <yummy:PancakeView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ICommandFilterOptionTapped}" />
+                    </yummy:PancakeView.GestureRecognizers>
                 </yummy:PancakeView>
 
                 <CollectionView x:Name="FilterCollectionview" ItemsSource="{Binding FilterOptions}"  Grid.Column="1" HeightRequest="35"
@@ -145,10 +167,6 @@
                 </Label.FormattedText>
             </Label>
 
-            <ActivityIndicator Grid.Row="3" HorizontalOptions="Center" BackgroundColor="Transparent"
-                               IsRunning="{Binding IsActivityBusy}" IsVisible="{Binding IsActivityBusy}"
-                               VerticalOptions="Center" HeightRequest="38" WidthRequest="38" />
-
             <CollectionView x:Name="NewsCollectionview" Grid.Row="3" ItemsSource="{Binding NewsList}" Margin="0,10,0,0"
                             SelectionMode="Single" SelectedItem="{Binding SelectedNewsModel, Mode=TwoWay}"
                             SelectionChangedCommand="{Binding ICommandNewsSelectionCommand}"
@@ -199,6 +217,11 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+            <ActivityIndicator Grid.Row="3" HorizontalOptions="Center" BackgroundColor="Transparent"
+                               IsRunning="{Binding IsActivityBusy}" IsVisible="{Binding IsActivityBusy}"
+                               VerticalOptions="Center" HeightRequest="38" WidthRequest="38" />
+            
         </Grid>
 
         <!--<controls:BottomSheetControl x:Name="Sheet" Grid.Row="4"
