@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.FirebaseCrashlytics;
+using System;
 using System.Text.RegularExpressions;
 
 namespace NewsApp.Helpers
@@ -16,6 +17,7 @@ namespace NewsApp.Helpers
 			}
 			catch (Exception ex)
 			{
+				CrossFirebaseCrashlytics.Current.RecordException(ex);
 				return false;
 			}
 		}

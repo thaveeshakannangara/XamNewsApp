@@ -159,7 +159,7 @@
                                IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
                                VerticalOptions="Center" HeightRequest="38" WidthRequest="38"/>
 
-            <CollectionView x:Name="FilterCollectionview" Grid.Row="3" ItemsSource="{Binding FilterOptions}" HeightRequest="35" Margin="0,20,0,0"
+            <CollectionView x:Name="FilterCollectionview" Grid.Row="3" ItemsSource="{Binding FilterOptions}" HeightRequest="35" Margin="0,20,10,0"
                             SelectionMode="Single" SelectedItem="{Binding SelectedFilterOption, Mode=TwoWay}"
                             SelectionChangedCommand="{Binding ICommandFilterOptionSelectionCommand}"
                             SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference FilterCollectionview}}">
@@ -172,9 +172,9 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <yummy:PancakeView BackgroundColor="White" Margin="5,0,5,0" CornerRadius="32"
+                            <yummy:PancakeView BackgroundColor="White" Margin="0,0,0,0" CornerRadius="32"
                                 HorizontalOptions="Start" VerticalOptions="Center"
-                                HeightRequest="32" WidthRequest="79">
+                                HeightRequest="32" WidthRequest="90">
 
                                 <yummy:PancakeView.Border>
                                     <yummy:Border Color="#F0F1FA" Thickness="1" />

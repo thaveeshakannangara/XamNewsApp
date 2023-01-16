@@ -3,6 +3,7 @@ using Android.Graphics.Drawables;
 using Android.Views;
 using NewsApp.CustomRenderers;
 using NewsApp.Droid.CustomRenderers;
+using Plugin.FirebaseCrashlytics;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -48,7 +49,7 @@ namespace NewsApp.Droid.CustomRenderers
 				}
 				catch (Exception ex)
 				{
-					// handle exception
+					CrossFirebaseCrashlytics.Current.RecordException(ex);
 				}
 			}
 		}

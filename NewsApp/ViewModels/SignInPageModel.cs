@@ -120,6 +120,7 @@ namespace NewsApp
 				if (user != null)
 				{
 					Preferences.Set(PreferencesKey.IsLoggedIn, true);
+					Preferences.Set(PreferencesKey.IsUserEmail, Email);
 					var page = FreshPageModelResolver.ResolvePageModel<HomePageModel>();
 					Application.Current.MainPage = new FreshNavigationContainer(page);
 				}
@@ -159,17 +160,6 @@ namespace NewsApp
 
 			return response;
 		}
-
-		internal async Task BackClicked()
-		{
-			//var result = await CoreMethods.DisplayAlert("Exit", "Are you sure you want to exit?", "Yes", "No");
-			//if (result)
-			//{
-			//	var closer = DependencyService.Get<ISettingsHelper>();
-			//	closer?.CloseApplication();
-			//}
-		}
-
 		#endregion Private Methods
 	}
 }

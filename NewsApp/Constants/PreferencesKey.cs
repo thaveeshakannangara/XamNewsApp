@@ -9,5 +9,6 @@ namespace NewsApp.Constants
 		public const string DbKey = "DbKey";
 		public const string DatabasePath = "DatabasePath";
 		public const string IsLoggedIn = "IsLoggedIn";
+		public const string IsUserEmail = "IsUserEmail";
 	}
 }

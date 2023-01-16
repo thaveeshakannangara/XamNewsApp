@@ -107,8 +107,8 @@ namespace NewsApp
 			}
 		}
 
-		public string SearchKey 
-		{ 
+		public string SearchKey
+		{
 			get => searchKey;
 			set
 			{
@@ -194,7 +194,7 @@ namespace NewsApp
 		{
 			if (string.IsNullOrEmpty(SearchKey)) return;
 
-			await CoreMethods.PushPageModel<SearchListPageModel>();
+			await CoreMethods.PushPageModel<SearchListPageModel>(SearchKey);
 		}
 
 		private async Task SeeAllTapped()
@@ -258,6 +258,7 @@ namespace NewsApp
 			if (isLogout)
 			{
 				Preferences.Set(PreferencesKey.IsLoggedIn, false);
+				Preferences.Set(PreferencesKey.IsUserEmail, string.Empty);
 				var page = FreshPageModelResolver.ResolvePageModel<SignInPageModel>();
 				Application.Current.MainPage = new FreshNavigationContainer(page);
 			}

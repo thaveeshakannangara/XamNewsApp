@@ -8,6 +8,7 @@ using NewsApp.Data.Repositories;
 using NewsApp.Services.Contracts;
 using NewsApp.Services.FilterService;
 using NewsApp.Services.NewsService;
+using Plugin.FirebaseCrashlytics;
 using System;
 using System.IO;
 using Xamarin.Essentials;
@@ -23,6 +24,7 @@ namespace NewsApp
 		{
 			InitializeComponent();
 
+			InitializeCrashlytics();
 			InitDIContainer();
 			InitializeAutomapper();
 			InitDatabase();
@@ -72,6 +74,13 @@ namespace NewsApp
 		{
 			Mapper.Initialize(c => c.AddProfile<MappingProfile>());
 			Mapper.AssertConfigurationIsValid();
+		}
+
+		private static void InitializeCrashlytics()
+		{
+			string userEmail = Preferences.Get(PreferencesKey.IsUserEmail, string.Empty);
+			CrossFirebaseCrashlytics.Current.SetUserId(userEmail);
+			CrossFirebaseCrashlytics.Current.HandleUncaughtException();
 		}
 
 		protected override void OnStart()
