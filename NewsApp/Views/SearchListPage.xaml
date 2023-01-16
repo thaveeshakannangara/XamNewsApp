@@ -1,65 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NewsApp.SearchListPage"
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
-             xmlns:controls="clr-namespace:NewsApp.Controls.BottomSheet"
+             xmlns:local="clr-namespace:NewsApp.Converters"
+             x:Class="NewsApp.SearchListPage"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource PageBackgroundColor}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:DateToDateStringConverter x:Key="DateToDateString" />
+        </ResourceDictionary>
+
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
 
-        <Grid Margin="20">
+        <Grid Margin="20,20,20,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!--<Grid  Grid.Row="0" HorizontalOptions="Center">
-                <Button Text="Tap Me!" Clicked="Button_Clicked" VerticalOptions="Center"/>
-            </Grid>-->
-
-            <yummy:PancakeView Grid.Row="0" BackgroundColor="White" Margin="5,0,5,0" CornerRadius="32" Padding="0"
-                                HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" 
-                                HeightRequest="40">
-
-                <yummy:PancakeView.Border>
-                    <yummy:Border Color="#F0F1FA" Thickness="1" />
-                </yummy:PancakeView.Border>
+            <Frame Grid.Row="0" BackgroundColor="White" BorderColor="#F0F1FA"
+                    Margin="5,0,5,10" Padding="0" CornerRadius="32" HeightRequest="35"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="Start">
 
                 <Grid HorizontalOptions="StartAndExpand">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <Entry Grid.Column="0" Text="COVID New Variant" TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12"
-                                       HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Margin="5,0,5,0"/>
+                    <Entry Grid.Column="0" Text="{Binding SearchKey,Mode=TwoWay}" Placeholder="Search..."
+                               TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12" WidthRequest="345" Margin="5,0,5,0"
+                               HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
 
-                    <ImageButton Grid.Column="1" Source="searchbarclose.png" BackgroundColor="Transparent" 
-                                 HeightRequest="12" WidthRequest="12" Margin="5,0,20,0" />
-
+                    <ImageButton Grid.Column="1" Source="searchbarclose.png" BackgroundColor="Transparent" HorizontalOptions="End"
+                                 HeightRequest="12" WidthRequest="12" Margin="5,0,20,0" Command="{Binding ICommandSearchBarTapped}" />
                 </Grid>
-            </yummy:PancakeView>
+            </Frame>
 
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <yummy:PancakeView Grid.Column="0"
-                               BackgroundGradientStartPoint="0,0" 
+                               BackgroundGradientStartPoint="0,0"
                                BackgroundGradientEndPoint="1,0"
                                CornerRadius="32"
-                               HorizontalOptions="Start" VerticalOptions="Center" 
+                               HorizontalOptions="Start" VerticalOptions="Center"
                                HeightRequest="32" WidthRequest="79">
 
                     <yummy:PancakeView.BackgroundGradientStops>
                         <yummy:GradientStopCollection>
-                            <yummy:GradientStop Color="#FF3A44" Offset="0.1"  />
+                            <yummy:GradientStop Color="#FF3A44" Offset="0.1" />
                             <yummy:GradientStop Color="#FF8086" Offset="1.0" />
                         </yummy:GradientStopCollection>
                     </yummy:PancakeView.BackgroundGradientStops>
@@ -69,84 +84,121 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        
+
                         <Image Grid.Column="0" Source="filtericon.png" HeightRequest="12" WidthRequest="10" />
-                        <Label Grid.Column="1" Text="Filter" TextColor="#FFFFFF" VerticalOptions="Center" 
-                               FontFamily="NunitoSemiBold" FontSize="12"/>
+                        <Label Grid.Column="1" Text="Filter" TextColor="#FFFFFF" VerticalOptions="Center"
+                               FontFamily="NunitoSemiBold" FontSize="12" />
                     </Grid>
                 </yummy:PancakeView>
 
-                <CollectionView ItemsSource="{Binding FilterOptions}"  Grid.Column="1" HeightRequest="35">
+                <CollectionView x:Name="FilterCollectionview" ItemsSource="{Binding FilterOptions}"  Grid.Column="1" HeightRequest="35"
+                            SelectionMode="Single" SelectedItem="{Binding SelectedFilterOption, Mode=TwoWay}"
+                            SelectionChangedCommand="{Binding ICommandFilterOptionSelectionCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference FilterCollectionview}}">
 
                     <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Horizontal"
-                           ItemSpacing="5" />
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
                     </CollectionView.ItemsLayout>
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <yummy:PancakeView BackgroundColor="White" Margin="5,0,5,0" CornerRadius="32"
-                                HorizontalOptions="Start" VerticalOptions="Center" 
-                                HeightRequest="32" WidthRequest="79">
+                            <Grid>
+                                <yummy:PancakeView BackgroundColor="White" Margin="0,0,0,0" CornerRadius="32"
+                                HorizontalOptions="Start" VerticalOptions="Center"
+                                HeightRequest="32" WidthRequest="90">
 
-                                <yummy:PancakeView.Border>
-                                    <yummy:Border Color="#F0F1FA" Thickness="1" />
-                                </yummy:PancakeView.Border>
+                                    <yummy:PancakeView.Border>
+                                        <yummy:Border Color="#F0F1FA" Thickness="1" />
+                                    </yummy:PancakeView.Border>
 
-                                <Label Grid.Column="1" Text="{Binding FilterOption}" TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12" 
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    <Label Grid.Column="1" Text="{Binding FilterOption}" TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12"
+                                       HorizontalOptions="Center" VerticalOptions="Center">
 
-                            </yummy:PancakeView>
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="TextColor" Value="#FFFFFF"/>
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+
+                                    <yummy:PancakeView.Triggers>
+                                        <DataTrigger TargetType="ContentView" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="BackgroundColor" Value="#ff6b73"/>
+                                        </DataTrigger>
+                                    </yummy:PancakeView.Triggers>
+                                </yummy:PancakeView>
+                            </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
 
-            <Label Grid.Row="2" Text="" Margin="0,0,0,5" TextColor="Black" >
+            <Label Grid.Row="2" Text="" Margin="0,10,0,0" TextColor="Black">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="About 11,130,000 results for" FontFamily="NunitoRegular" FontSize="14" />
-                        <Span Text=" COVID New Variant." FontFamily="NunitoBoldItalic" FontSize="14" />
+                        <Span Text="About " FontFamily="NunitoRegular" FontSize="14" />
+                        <Span Text="{Binding TotalResults}" FontFamily="NunitoRegular" FontSize="14" />
+                        <Span Text=" results for " FontFamily="NunitoRegular" FontSize="14" />
+                        <Span Text="{Binding SearchKey}" FontFamily="NunitoBoldItalic" FontSize="14" />
+                        <Span Text="." FontFamily="NunitoBoldItalic" FontSize="14" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
 
-            <Grid Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <ActivityIndicator Grid.Row="3" HorizontalOptions="Center" BackgroundColor="Transparent"
+                               IsRunning="{Binding IsActivityBusy}" IsVisible="{Binding IsActivityBusy}"
+                               VerticalOptions="Center" HeightRequest="38" WidthRequest="38" />
 
-                <Frame Grid.Row="0" IsClippedToBounds="True" HeightRequest="150" Padding="0" CornerRadius="8">
-                    <Image Source="https://c.biztoc.com/p/7d6a83a1f8d43158/o.webp"  Aspect="AspectFill" />
-                </Frame>
+            <CollectionView x:Name="NewsCollectionview" Grid.Row="3" ItemsSource="{Binding NewsList}" Margin="0,10,0,0"
+                            SelectionMode="Single" SelectedItem="{Binding SelectedNewsModel, Mode=TwoWay}"
+                            SelectionChangedCommand="{Binding ICommandNewsSelectionCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference NewsCollectionview}}">
 
-                <Frame Grid.Row="0" HeightRequest="150" Padding="0" CornerRadius="8" BackgroundColor="Black" Opacity="0.3">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="30" />
+                </CollectionView.ItemsLayout>
 
-                </Frame>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
 
-                <Grid Grid.Row="0" Padding="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="#FFFFFF" FontSize="14" FontFamily="NewYorkSmallSemibold"
-                Text="What to do if you're planning or attending a wedding during the pandemic"
-                VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
+                            <Frame Grid.Row="0" IsClippedToBounds="True" HeightRequest="150" Padding="0" CornerRadius="8">
+                                <Image Source="{Binding UrlToImage}"  Aspect="AspectFill" />
+                            </Frame>
 
-                    <Label Grid.Row="1" Grid.Column="0" Text="Kristen Rogers" TextColor="#FFFFFF"
-                VerticalOptions="End" HorizontalOptions="Start" FontSize="12" FontFamily="NunitoSemiBold" />
+                            <Frame Grid.Row="0" HeightRequest="150" Padding="0" CornerRadius="8" BackgroundColor="Black" Opacity="0.3">
+                            </Frame>
 
-                    <Label Grid.Row="1" Grid.Column="1" Text="Sunday, 9 May 2021" TextColor="#FFFFFF"
-                VerticalOptions="End" HorizontalOptions="End" FontSize="12" FontFamily="NunitoSemiBold" />
+                            <Grid Grid.Row="0" Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                </Grid>
-            </Grid>
+                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="#FFFFFF"
+                                FontSize="14" FontFamily="NewYorkSmallSemibold"
+                                Text="{Binding Title}"
+                                VerticalOptions="Start" HorizontalOptions="StartAndExpand" />
 
+                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding Author}" TextColor="#FFFFFF"
+                                VerticalOptions="End" HorizontalOptions="Start" FontSize="12" FontFamily="NunitoSemiBold" />
+
+                                <Label Grid.Row="1" Grid.Column="1" TextColor="#FFFFFF"
+                                Text="{Binding PublishedAt, Converter={StaticResource DateToDateString},Mode=OneWay}"
+                                VerticalOptions="End" HorizontalOptions="End" FontSize="12" FontFamily="NunitoSemiBold" />
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
 
         <!--<controls:BottomSheetControl x:Name="Sheet" Grid.Row="4"
@@ -162,7 +214,7 @@
                                      HorizontalOptions="Center"
                                      VerticalOptions="Start"
                                      HeightRequest="5"
-                                     WidthRequest="40"/>
+                                     WidthRequest="40" />
                                 </Grid>
                             </On>
                             <On Platform="Android">
@@ -170,7 +222,7 @@
                                     <Image Source="chevrondown"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Start"
-                                    WidthRequest="40"/>
+                                    WidthRequest="40" />
                                 </Grid>
                             </On>
                         </OnPlatform>
@@ -178,13 +230,11 @@
                         <Label HorizontalTextAlignment="Center"
                            Margin="0,20"
                            Text="Welcome to Xamarin how to"
-                           FontSize="18"/>
+                           FontSize="18" />
 
-                        <Image Source="NewsAppIcon.png" HorizontalOptions="Center"/>
-
+                        <Image Source="NewsAppIcon.png" HorizontalOptions="Center" />
                     </StackLayout>
                 </controls:BottomSheetControl.SheetContent>
             </controls:BottomSheetControl>-->
-        
     </ContentPage.Content>
 </ContentPage>

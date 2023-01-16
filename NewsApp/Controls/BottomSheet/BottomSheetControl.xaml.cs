@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.FirebaseCrashlytics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,7 @@ namespace NewsApp.Controls.BottomSheet
 			}
 			catch (Exception ex)
 			{
-				//ex.Log();
+				CrossFirebaseCrashlytics.Current.RecordException(ex);
 			}
 		}
 

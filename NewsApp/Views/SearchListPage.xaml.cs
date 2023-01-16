@@ -11,18 +11,5 @@ namespace NewsApp
 		{
 			InitializeComponent();
 		}
-
-		private async void Button_Clicked(System.Object sender, System.EventArgs e)
-		{
-			try
-			{
-				//await Sheet.OpenSheet();
-			}
-			catch (Exception ex)
-			{
-				//ex.Log();
-			}
-		}
-
 	}
 }
