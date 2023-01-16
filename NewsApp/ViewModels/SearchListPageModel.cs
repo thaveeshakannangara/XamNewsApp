@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NewsAPI.Constants;
 using NewsAPI.Models;
+using NewsApp.Controls.BottomSheet;
 using NewsApp.Helpers;
 using NewsApp.Models.AppModels;
 using NewsApp.Services.Contracts;
@@ -25,7 +26,7 @@ namespace NewsApp
 		private string searchKey = string.Empty;
 		private int totalResults = 0;
 
-		public int TotalResults 
+		public int TotalResults
 		{
 			get => totalResults;
 			set
@@ -93,6 +94,10 @@ namespace NewsApp
 
 		public ICommand ICommandFilterOptionSelectionCommand { get; set; }
 		public ICommand ICommandNewsSelectionCommand { get; set; }
+		public ICommand ICommandSearchBarTapped { get; set; }
+		public ICommand ICommandClearSearchTapped { get; set; }
+		public ICommand ICommandFilterOptionTapped { get; set; }
+		public ICommand ICommandBackButtonCommand { get; set; }
 
 		public SearchListPageModel(INewsProviderService newsService, IFilterOptionsService filterService)
 		{
@@ -102,10 +107,37 @@ namespace NewsApp
 			newsList = new ObservableCollection<NewsModel>();
 			ICommandFilterOptionSelectionCommand = new Command<object>(FilterOptionSelectionChanged);
 			ICommandNewsSelectionCommand = new Command<object>(NewsSelectionChanged);
+			ICommandSearchBarTapped = new Command(async () => await SearchBarTapped());
+			ICommandClearSearchTapped = new Command(() => ClearSearchTapped());
+			ICommandFilterOptionTapped = new Command(async () => await FilterOptionTapped());
+			ICommandBackButtonCommand = new Command(async () => await BackButtonTapped());
+		}
+
+		private void ClearSearchTapped()
+		{
+			SearchKey = string.Empty;
+		}
+
+		private async Task FilterOptionTapped()
+		{
+			var page = new BottomSheetPopup();
+			await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
+
+			var result = await page.PopupClosedTask;
+			if (result == null) return;
+		}
+
+		private async Task SearchBarTapped()
+		{
+			if (string.IsNullOrEmpty(SearchKey)) return;
+			IsBusy = true;
+			await RetriveNewsBySearchKey();
+			IsBusy = false;
 		}
 
 		public override async void Init(object initData)
 		{
+			IsBusy = true;
 			//InitializeFilters
 			var filters = _filterService.GetFilterOptions();
 
@@ -122,6 +154,7 @@ namespace NewsApp
 			SearchKey = initData as string;
 			await RetriveNewsBySearchKey();
 
+			IsBusy = false;
 			base.Init(initData);
 		}
 
@@ -176,7 +209,7 @@ namespace NewsApp
 				Language = Languages.EN,
 				Page = 1,
 				PageSize = 10,
-				SortBy = SortBys.PublishedAt,
+				SortBy = SortBys.Relevancy,
 			});
 
 			if (articles != null && articles.Articles != null && articles.Articles.Any())
@@ -195,6 +228,11 @@ namespace NewsApp
 				await CoreMethods.PushPageModel<DetailPageModel>(selectedItem);
 				SelectedNewsModel = null;
 			}
+		}
+
+		private async Task BackButtonTapped()
+		{
+			await CoreMethods.PopPageModel();
 		}
 	}
 }

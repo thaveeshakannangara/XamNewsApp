@@ -23,6 +23,7 @@ namespace NewsApp.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
 			Firebase.Core.App.Configure();
+			Rg.Plugins.Popup.Popup.Init();
 			global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 

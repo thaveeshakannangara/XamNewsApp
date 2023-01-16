@@ -1,4 +1,5 @@
 ﻿using FreshMvvm;
+using System.Threading.Tasks;
 
 namespace NewsApp.ViewModels
 {
@@ -15,6 +16,11 @@ namespace NewsApp.ViewModels
 				isBusy = value;
 				RaisePropertyChanged(nameof(IsBusy));
 			}
+		}
+
+		public virtual Task InitializePopupAsync()
+		{
+			return Task.FromResult(false);
 		}
 	}
 }

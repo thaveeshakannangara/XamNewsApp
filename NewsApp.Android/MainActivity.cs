@@ -14,7 +14,8 @@ namespace NewsApp.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+			Rg.Plugins.Popup.Popup.Init(this);
+			Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
         }
@@ -24,5 +25,10 @@ namespace NewsApp.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
+
+		public override void OnBackPressed()
+		{
+			Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
+		}
+	}
 }
