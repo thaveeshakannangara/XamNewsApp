@@ -4,7 +4,7 @@
 	{
 		public const string DbName = "newsapp.db3";
 		public const string DbSecretKey = "NewsAppR1x";
-		public const string NewsApiKey = "5c82c93da1224984a0d90e3629439712";
+		public const string NewsApiKey = "";
 
 		public const SQLite.SQLiteOpenFlags SQLQueryFlags =
 					SQLite.SQLiteOpenFlags.ReadWrite |
