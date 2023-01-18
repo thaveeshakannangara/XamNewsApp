@@ -8,6 +8,7 @@ using NewsApp.Data.Repositories;
 using NewsApp.Services.Contracts;
 using NewsApp.Services.FilterService;
 using NewsApp.Services.NewsService;
+using NewsApp.Services.SortingService;
 using Plugin.FirebaseCrashlytics;
 using System;
 using System.IO;
@@ -41,6 +42,7 @@ namespace NewsApp
 			FreshIOC.Container.Register<IUserRepository, UserRepository>();
 			FreshIOC.Container.Register<INewsProviderService, NewsProviderService>();
 			FreshIOC.Container.Register<IFilterOptionsService, FilterOptionsService>();
+			FreshIOC.Container.Register<ISortingService, SortingService>();
 		}
 
 		private static void InitDatabase()
