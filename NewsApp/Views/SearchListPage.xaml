@@ -167,10 +167,16 @@
                 </Label.FormattedText>
             </Label>
 
+            <ActivityIndicator Grid.Row="2" HorizontalOptions="End" BackgroundColor="Transparent" Margin="0,0,10,0"
+                               IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               VerticalOptions="Center" HeightRequest="38" WidthRequest="38" />
+            
             <CollectionView x:Name="NewsCollectionview" Grid.Row="3" ItemsSource="{Binding NewsList}" Margin="0,10,0,0"
                             SelectionMode="Single" SelectedItem="{Binding SelectedNewsModel, Mode=TwoWay}"
                             SelectionChangedCommand="{Binding ICommandNewsSelectionCommand}"
-                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference NewsCollectionview}}">
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference NewsCollectionview}}"
+                            RemainingItemsThreshold="{Binding ItemTreshold}"
+                            RemainingItemsThresholdReachedCommand="{Binding ItemTresholdReachedCommand}">
 
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" ItemSpacing="30" />
@@ -218,10 +224,6 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <ActivityIndicator Grid.Row="3" HorizontalOptions="Center" BackgroundColor="Transparent"
-                               IsRunning="{Binding IsActivityBusy}" IsVisible="{Binding IsActivityBusy}"
-                               VerticalOptions="Center" HeightRequest="38" WidthRequest="38" />
-            
         </Grid>
 
         <!--<controls:BottomSheetControl x:Name="Sheet" Grid.Row="4"

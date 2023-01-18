@@ -19,12 +19,28 @@ namespace NewsApp
 	{
 		private readonly INewsProviderService _newsService;
 		private readonly IFilterOptionsService _filterService;
+		private readonly ISortingService _sortingService;
 		private List<FilterModel> filterOptions;
 		private FilterModel selectedFilterOption;
 		private NewsModel selectedNewsModel;
 		private ObservableCollection<NewsModel> newsList;
 		private string searchKey = string.Empty;
 		private int totalResults = 0;
+		private SortBys sortOption;
+		private int itemTreshold;
+		private int currentPage;
+		private const int pageSize = 10;
+
+		public int ItemTreshold
+		{
+			get => itemTreshold;
+			set
+			{
+				if (itemTreshold == value) return;
+				itemTreshold = value;
+				RaisePropertyChanged(nameof(ItemTreshold));
+			}
+		}
 
 		public int TotalResults
 		{
@@ -98,11 +114,17 @@ namespace NewsApp
 		public ICommand ICommandClearSearchTapped { get; set; }
 		public ICommand ICommandFilterOptionTapped { get; set; }
 		public ICommand ICommandBackButtonCommand { get; set; }
+		public ICommand ItemTresholdReachedCommand { get; set; }
 
-		public SearchListPageModel(INewsProviderService newsService, IFilterOptionsService filterService)
+		public SearchListPageModel(INewsProviderService newsService, IFilterOptionsService filterService,
+			ISortingService sortingService)
 		{
 			_newsService = newsService;
 			_filterService = filterService;
+			_sortingService = sortingService;
+			ItemTreshold = 1;
+			currentPage = 1;
+			sortOption = SortBys.Relevancy;
 			filterOptions = new List<FilterModel>();
 			newsList = new ObservableCollection<NewsModel>();
 			ICommandFilterOptionSelectionCommand = new Command<object>(FilterOptionSelectionChanged);
@@ -111,6 +133,7 @@ namespace NewsApp
 			ICommandClearSearchTapped = new Command(() => ClearSearchTapped());
 			ICommandFilterOptionTapped = new Command(async () => await FilterOptionTapped());
 			ICommandBackButtonCommand = new Command(async () => await BackButtonTapped());
+			ItemTresholdReachedCommand = new Command(async () => await ItemsTresholdReached());
 		}
 
 		private void ClearSearchTapped()
@@ -125,6 +148,20 @@ namespace NewsApp
 
 			var result = await page.PopupClosedTask;
 			if (result == null) return;
+
+			var sorting = (SortingModel)result;
+			IsBusy = true;
+			sortOption = _sortingService.GetSortingOptionsEnum(sorting.SortingOption);
+			await RetriveNewsBySearchKey();
+			IsBusy = false;
+		}
+
+		private async Task ItemsTresholdReached()
+		{
+			currentPage++;
+			IsBusy = true;
+			await RetriveNewsBySearchKey();
+			IsBusy = false;
 		}
 
 		private async Task SearchBarTapped()
@@ -191,7 +228,7 @@ namespace NewsApp
 				Category = category,
 				Language = Languages.EN,
 				Page = 1,
-				PageSize = 10,
+				PageSize = pageSize,
 			});
 
 			if (articles != null && articles.Articles != null && articles.Articles.Any())
@@ -207,16 +244,25 @@ namespace NewsApp
 			{
 				Q = SearchKey,
 				Language = Languages.EN,
-				Page = 1,
-				PageSize = 10,
-				SortBy = SortBys.Relevancy,
+				Page = currentPage,
+				PageSize = pageSize,
+				SortBy = sortOption,
 			});
 
 			if (articles != null && articles.Articles != null && articles.Articles.Any())
 			{
 				TotalResults = articles.TotalResults;
 				var newsLists = Mapper.Map<List<Article>, List<NewsModel>>(articles.Articles);
-				NewsList = newsLists.ToObservableCollection();
+
+				foreach (var item in newsLists)
+				{
+					NewsList.Add(item);
+				}
+
+				if (articles.TotalResults < (currentPage * pageSize))
+				{
+					ItemTreshold = -1;
+				}
 			}
 		}
 

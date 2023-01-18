@@ -1,4 +1,6 @@
-﻿namespace NewsApp.Constants
+﻿using NewsApp.Models.AppModels;
+
+namespace NewsApp.Constants
 {
 	public static class AppContants
 	{
@@ -14,5 +16,7 @@
 							SQLite.SQLiteOpenFlags.ReadWrite |
 							SQLite.SQLiteOpenFlags.Create |
 							SQLite.SQLiteOpenFlags.SharedCache;
+
+		public static SortingModel SelectedSortingOption { get; set; }
 	}
 }

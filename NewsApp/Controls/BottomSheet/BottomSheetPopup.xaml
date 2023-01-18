@@ -3,8 +3,27 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:customButton="clr-namespace:NewsApp.CustomRenderers"
                  xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
-                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
                  x:Class="NewsApp.Controls.BottomSheet.BottomSheetPopup">
+
+    <pages:PopupPage.Resources>
+
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </pages:PopupPage.Resources>
 
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation PositionIn="Bottom" PositionOut="Bottom" ScaleIn="1.2" ScaleOut="0.8" DurationIn="400" DurationOut="300"
@@ -14,7 +33,7 @@
     <Frame HeightRequest="315" WidthRequest="400" BackgroundColor="White" Padding="20,20,20,20" CornerRadius="15"
         HorizontalOptions="FillAndExpand" VerticalOptions="End">
 
-        <Grid RowSpacing="5">
+        <Grid RowSpacing="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="5" />
                 <RowDefinition Height="Auto" />
@@ -27,7 +46,12 @@
             </Grid.ColumnDefinitions>
 
             <BoxView  Grid.Row="0" HeightRequest="5" WidthRequest="72" BackgroundColor="#C5C5C5" CornerRadius="5"
-                     HorizontalOptions="Center" VerticalOptions="Start" />
+                     HorizontalOptions="Center" VerticalOptions="Start">
+
+                <BoxView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ICommandSaveTappedCommand}"/>
+                </BoxView.GestureRecognizers>
+            </BoxView>
 
             <Label Grid.Row="1" Text="Filter" TextColor="#041E2F" Margin="0,10,0,0"
                    VerticalOptions="Start" HorizontalOptions="Start" FontFamily="NunitoBold" FontSize="22" />
@@ -38,9 +62,50 @@
             <Label Grid.Row="2" Grid.Column="0" Text="Sort By" TextColor="#041E2F" Margin="0,10,0,0"
                    VerticalOptions="Start" HorizontalOptions="Start" FontFamily="NunitoSemiBold" FontSize="14" />
 
+            <CollectionView x:Name="SortingCollectionview" Grid.Row="3" Grid.Column="0" ItemsSource="{Binding SortingOptions}" HeightRequest="35"
+                            SelectionMode="Single" SelectedItem="{Binding SelectedSortingOption, Mode=TwoWay}" Margin="0,10,0,0"
+                            SelectionChangedCommand="{Binding ICommandSortingOptionSelectionCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference SortingCollectionview}}">
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <yummy:PancakeView BackgroundColor="White" Margin="0,0,0,0" CornerRadius="32"
+                                HorizontalOptions="Start" VerticalOptions="Center"
+                                HeightRequest="32" WidthRequest="90">
+
+                                <yummy:PancakeView.Border>
+                                    <yummy:Border Color="#F0F1FA" Thickness="1" />
+                                </yummy:PancakeView.Border>
+
+                                <Label Grid.Column="1" Text="{Binding SortingOption}" TextColor="Black" FontFamily="NunitoSemiBold" FontSize="12"
+                                       HorizontalOptions="Center" VerticalOptions="Center">
+
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="TextColor" Value="#FFFFFF"/>
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+
+                                <yummy:PancakeView.Triggers>
+                                    <DataTrigger TargetType="ContentView" Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="#ff6b73"/>
+                                    </DataTrigger>
+                                </yummy:PancakeView.Triggers>
+                            </yummy:PancakeView>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
             <customButton:GradientButton Grid.Row="4" Text="Save" TextTransform="None" WidthRequest="340" HeightRequest="48"
-	            VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" GradientOrientation="Horizontal"  Margin="10,10,10,10"
-	            TextColor="White" StartColor="#FF3A44" EndColor="#fa7f86" Command="{Binding ICommandLoginClicked}">
+	            VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" GradientOrientation="Horizontal"  Margin="10,30,10,10"
+	            TextColor="White" StartColor="#FF3A44" EndColor="#fa7f86" Command="{Binding ICommandSaveTappedCommand}">
 
                 <customButton:GradientButton.CornerRadius>
                     <OnPlatform x:TypeArguments="x:Int32" iOS="4" Android="2" />
